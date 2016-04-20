@@ -40,7 +40,6 @@ To monitor specific drivers or drivers that are not automatically monitored, do 
 
 #=======================================
 # Sample log4j.properties file for log4j framework
-# For SQL interception and response time logging, the class to log is jdbc.sqltiming.
 #=======================================
 
 log4j.rootLogger=ERROR
@@ -50,14 +49,12 @@ log4j.appender.console=org.apache.log4j.ConsoleAppender
 log4j.appender.console.layout=org.apache.log4j.PatternLayout
 log4j.appender.console.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p [%c] - %m%n
 
-# turn on the internal log4j debugging flag so we can see what it is doing
+# turn on the internal log4j debugging flag if needed
 log4j.debug=false
 
 #========================================
-# JDBC API layer call logging :
-# INFO shows logging, DEBUG also shows where in code the jdbc calls were made,
-# setting DEBUG to true might cause minor slow-down in some environments.
-# If you experience too much slowness, use INFO instead.
+# JDBC API layer call logging settings
+#========================================
 
 # Log all JDBC calls except for ResultSet calls
 log4j.logger.jdbc.audit=INFO,jdbc
@@ -79,28 +76,33 @@ log4j.additivity.jdbc.sqltiming=false
 log4j.logger.jdbc.connection=INFO,connection
 log4j.additivity.jdbc.connection=false
 
-# the appender used for the JDBC API layer call logging above, sql only
+
+#========================================
+# JDBC API appender settings - optional 
+#========================================
+
+# appender only for sql logging
 log4j.appender.sql=org.apache.log4j.FileAppender
 log4j.appender.sql.File=/Library/Tomcat/logs/sql.log
 log4j.appender.sql.Append=true
 log4j.appender.sql.layout=org.apache.log4j.PatternLayout
 log4j.appender.sql.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p [%c] - %m%n
 
-# the appender used for the JDBC API layer call logging above, sql timing
+# appender only for sqltiming logging
 log4j.appender.sqltiming=org.apache.log4j.FileAppender
 log4j.appender.sqltiming.File=/Library/Tomcat/logs/sqltiming.log
 log4j.appender.sqltiming.Append=true
 log4j.appender.sqltiming.layout=org.apache.log4j.PatternLayout
 log4j.appender.sqltiming.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p [%c] - %m%n
 
-# the appender used for the JDBC API layer call logging above
+# appender for all jdbc api call logging
 log4j.appender.jdbc=org.apache.log4j.FileAppender
 log4j.appender.jdbc.File=/Library/Tomcat/logs/jdbc.log
 log4j.appender.jdbc.Append=true
 log4j.appender.jdbc.layout=org.apache.log4j.PatternLayout
 log4j.appender.jdbc.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p [%c] - %m%n
 
-# the appender used for the JDBC Connection open and close events
+# appender only for connection logging
 log4j.appender.connection=org.apache.log4j.FileAppender
 log4j.appender.connection.File=/Library/Tomcat/logs/connection.log
 log4j.appender.connection.Append=true
