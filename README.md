@@ -1,18 +1,18 @@
-#==============================================================================
+#=======================================
 # Introduction
-#==============================================================================
+#=======================================
 
-- DriverSpy to register itself as the main driver that accepts connections from other JDBC drivers
-- Users don't have to manually load the DriverSpy class and prepend jdbc:log4 to their DB URLs
+- DriverSpy2 to register itself as the main driver that accepts connections from other JDBC drivers
+- Users don't have to manually load the DriverSpy2 class and prepend jdbc:log4 to their DB URLs
 
-#==============================================================================
+#=======================================
 # Usage
-#==============================================================================
+#=======================================
 
 1. Include the log4jdbc.jar to the application's classpath (use 'mvn package' to build the jar from source code).
 
 2. Set log4jdbc as the main JDBC driver using Java/JVM arguments:
-    -Djdbc.drivers=net.sf.log4jdbc.DriverSpy 
+    -Djdbc.drivers=net.sf.log4jdbc.DriverSpy2 
 
 3. The following drivers are automatically monitored: UNLESS: -Dlog4jdbc.auto.load.popular.drivers=false
      * oracle.jdbc.driver.OracleDriver
@@ -31,17 +31,17 @@
      
 
 To monitor specific drivers or drivers that are not automatically monitored, do append as below
--Dlog4jdbc.drivers=net.sf.log4jdbc.DriverSpy[,<driverclass>...]
+-Dlog4jdbc.drivers=net.sf.log4jdbc.DriverSpy2[,<driverclass>...]
 
 4. Include the slf4j-api.jar and the appropriate SLF4J binding as required by the application's main logging framework 
 (i.e. slf4j-log4j12.jar, slf4j-jdk14.jar) in the classpath.
 
 5. Include the appropriate log properties file (see sample log4j.properties file below).
 
-#==============================================================================
+#=======================================
 # Sample log4j.properties file for log4j framework
 # For SQL interception and response time logging, the class to log is jdbc.sqltiming.
-#==============================================================================
+#=======================================
 
 log4j.rootLogger=ERROR
 log4j.logger.com.sample.db.app=INFO,console
@@ -53,7 +53,7 @@ log4j.appender.console.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p
 # turn on the internal log4j debugging flag so we can see what it is doing
 log4j.debug=false
 
-#==============================================================================
+#========================================
 # JDBC API layer call logging :
 # INFO shows logging, DEBUG also shows where in code the jdbc calls were made,
 # setting DEBUG to true might cause minor slow-down in some environments.
