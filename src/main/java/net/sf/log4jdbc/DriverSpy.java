@@ -23,6 +23,7 @@ import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.DriverPropertyInfo;
 import java.sql.SQLException;
+import java.sql.SQLFeatureNotSupportedException;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -30,6 +31,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.logging.Logger;
 
 /**
  * A JDBC driver which is a facade that delegates to one or more real underlying
@@ -95,13 +97,13 @@ public class DriverSpy implements Driver
 	/**
 	 * The last actual, underlying driver that was requested via a URL.
 	 */
-	private Driver lastUnderlyingDriverRequested;
+	protected Driver lastUnderlyingDriverRequested;
 
 	/**
 	 * Maps driver class names to RdbmsSpecifics objects for each kind of
 	 * database.
 	 */
-	private static Map rdbmsSpecifics;
+	protected static Map rdbmsSpecifics;
 
 	static final SpyLogDelegator log = SpyLogFactory.getSpyLogDelegator();
 
@@ -237,7 +239,7 @@ public class DriverSpy implements Driver
 	 * @return the value of that property key, converted to a Long. Or null if not
 	 *         defined or is invalid.
 	 */
-	private static Long getLongOption(Properties props, String propName)
+	protected static Long getLongOption(Properties props, String propName)
 	{
 		String propValue = props.getProperty(propName);
 		Long longPropValue = null;
@@ -270,7 +272,7 @@ public class DriverSpy implements Driver
 	 * @return the value of that property key, converted to a Long. Or null if not
 	 *         defined or is invalid.
 	 */
-	private static Long getLongOption(Properties props, String propName,
+	protected static Long getLongOption(Properties props, String propName,
 		long defaultValue)
 	{
 		String propValue = props.getProperty(propName);
@@ -305,7 +307,7 @@ public class DriverSpy implements Driver
 	 * @param propName property key.
 	 * @return the value of that property key.
 	 */
-	private static String getStringOption(Properties props, String propName)
+	protected static String getStringOption(Properties props, String propName)
 	{
 		String propValue = props.getProperty(propName);
 		if (propValue == null || propValue.length() == 0)
@@ -330,7 +332,7 @@ public class DriverSpy implements Driver
 	 * @return boolean value found in property, or defaultValue if no property
 	 *         found.
 	 */
-	private static boolean getBooleanOption(Properties props, String propName,
+	protected static boolean getBooleanOption(Properties props, String propName,
 		boolean defaultValue)
 	{
 		String propValue = props.getProperty(propName);
@@ -680,7 +682,7 @@ public class DriverSpy implements Driver
 	 * 
 	 * @throws SQLException if a database access error occurs.
 	 */
-	private Driver getUnderlyingDriver(String url) throws SQLException
+	protected Driver getUnderlyingDriver(String url) throws SQLException
 	{
 		if (url.startsWith("jdbc:log4"))
 		{
@@ -784,5 +786,10 @@ public class DriverSpy implements Driver
 
 		lastUnderlyingDriverRequested = d;
 		return d.getPropertyInfo(url, info);
+	}
+
+	public Logger getParentLogger() throws SQLFeatureNotSupportedException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
